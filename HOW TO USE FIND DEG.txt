@@ -1,0 +1,32 @@
+######## examples:
+
+#1:
+########### 1. find inter group(condition/treatment) DEGs in all clusters  (default use first group in Raw as control,second group as variable,supports multiple inputs in a vector form)
+#find_DEG_bewteen_groups(reduced_data,subset_name='All_cluster')
+
+########### 2. find inter group(condition/treatment) DEGs in kcng1+ clusters
+#find_DEG_bewteen_groups(reduced_data,subset_cluster = 7,subset_name = 'kcng1+')    # 7 is the cluster number of kcng1+ cells
+
+########### 3. find inter group(condition/treatment) DEGs in multiple clusters
+
+#find_DEG_bewteen_groups(reduced_data,subset_cluster = c(5,7),subset_name = 'A cells')
+
+########### 3. find inter group(condition/treatment) DEGs without multiple clusters that you want to exclude
+
+#find_DEG_bewteen_groups(reduced_data,subset_cluster = c(-5,-7),subset_name = 'B cells')
+
+########### 4. to set first one as control and second as variable
+
+#find_DEG_bewteen_groups(reduced_data,subset_cluster = c(-5,-7),subset_name = 'c cells',control_group=2,variable_group=1)
+#or with multiple groups
+##find_DEG_bewteen_groups(reduced_data,subset_cluster = c(-5,-7),subset_name = 'D cells',control_group=c(2,4),variable_group=c(1,3))
+
+#2:
+####### 1.find within group DEGs between cluster 5 and 6
+#find_DEG_bewteen_clusters(reduced_data,subset_name='All_group',control_cluster=5,variable_cluster=6)
+
+####### 2.find within group DEGs between cluster 5 and 6 in WT group
+#find_DEG_bewteen_clusters(reduced_data,subset_name='WT_only',control_cluster=5,subset_group='WT',variable_cluster=6)
+
+####### 3.find within group DEGs between cluster 5,8 and 6,10 in WT and KP3 group
+#find_DEG_bewteen_clusters(reduced_data,subset_name='WT_and_KP3',control_cluster=c(5,8),subset_group=c('WT','KP3'),variable_cluster=c(6,10) )
