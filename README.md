@@ -13,6 +13,7 @@ An automatic, batch-supported scRNA analysis pipeline integrates following funct
     source('functions/Initialization.R')
     ```
 ### Data orgranization
+## important : for GSEA command line integration, no white space is allowed in any path in work folder
 1. To process raw 10X matrix files, a specific file sctructure is required (Since a recursive file reading process is introduced, the program supports multiple samples and groups): 
 <img src="https://github.com/Gico1941/easyScRNA/assets/127346166/dfffceeb-0dbc-4c30-8f2e-a75b126d3a2d" width="500" />
 
