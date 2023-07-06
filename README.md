@@ -3,7 +3,7 @@ An automatic, batch-supported scRNA analysis pipeline integrates following funct
 
 ## Workflow overview :
 <img src="https://github.com/Gico1941/easyScRNA/assets/127346166/31f80e7d-ed7f-4608-99b7-b6dbad8990f2" width="800" />
-
+ 
 ## Manual :
 ###  Installation
 1.	Download code and extract files (The “easyScRNA-main” folder will be the work folder).
