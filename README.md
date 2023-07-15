@@ -2,15 +2,35 @@
 An automatic, batch-supported scRNA analysis pipeline integrates following functions: Recursive file import and group integration; UMAP dimension reduction and visualization; Multi-plots includes feature plot, violin plot and variable feature heatmap; cluster marker (differentially expressed genes) discovery and visualization; GSEA (Gene Set Enrichment Analysis) and visualization.
 
 ## Workflow overview :
-<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/31f80e7d-ed7f-4608-99b7-b6dbad8990f2" width="800" />
- 
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/05dba2f4-a2f6-4703-879d-5ca79883cece" width="800" />
+
+
+## Prerequisites :
+R (version 4.3.0)
+
+R studio
+
+
+### What will be automatically built in pipeline ?
+
+Microsoft C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+
+CellTypist (https://github.com/Teichlab/celltypist)
+
+GSEA v4.3.2 for the command line (https://www.gsea-msigdb.org/gsea/downloads.jsp)
+
+Java, Conda (with python) and other R packages ....
+
+
+
 ## Manual :
+
 ###  Installation
 1.	Download code and extract files (The “easyScRNA-main” folder will be the work folder).
 2.	Create your own R script for running the pipeline. Working with the “example.R” is recommended (with example commands and parameter settings).
 3.	Download all necessary R packages and load them with command:
     ```
-    source('functions/Initialization.R')
+    source('functions/Main_functions.R')
     ```
 ### Data orgranization
 #### important : for GSEA command line integration, white space is not allowed in any path in work folder
@@ -86,7 +106,23 @@ cluster numbers are corresponding cell cluster numbers shown in UMAP plot
   ```
   reduced_data <-processing_reduced_data(object_data,,save=T,idents_ = idents_you_want_to_keep) 
   ```
-4. results will be saved under folder "reduced_PLOTs" 
+4. results will be saved under folder "reduced_PLOTs"
+   
+5. Auto annotation with CellTypist
+```
+Model_download(model_path = 'CelltypistModel')           ######### download models 
+Model_list(model_path = 'CelltypistModel')             ####### list avalible models
+
+predicted_data <- Runcelltypist(dt = reduced_data,model='Immune_All_Low',majority_voting = T)    ### choose one model from avaliable model list  e.g. 'Immune_All_low'
+                   
+d1 <- DimPlot(predicted_datadas)
+d2 <- DimPlot(predicted_datadas,group.by = "typist_prediction")
+d1+d2
+```
+
+
+
+
 ### DEG discovery
 Pipeline contains two modes of DEG discovery :
 1. Find DEG between different groups but in same cell populatiton (find DEG in cluster 8 between untreated group and treated group):
@@ -175,4 +211,5 @@ visualization with bubble plot :
 GSEA_bubble(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20)
 ```
 specify fdr_top to plot the top enriched pathways ranked by fdr
+
 
