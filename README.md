@@ -1,4 +1,4 @@
-# easyScRNA: An easy-to-use single cell analysis pipeline
+# easyScRNA: An integrated, easy-to-use pipeline for standard single cell sequencing analysis
 An automatic, batch-supported scRNA analysis pipeline integrates following functions: Recursive file import and group integration; UMAP dimension reduction and visualization; Multi-plots includes feature plot, violin plot and variable feature heatmap; cluster marker (differentially expressed genes) discovery and visualization; GSEA (Gene Set Enrichment Analysis) and visualization.
 
 ## Workflow overview :
