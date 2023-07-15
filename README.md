@@ -28,7 +28,7 @@ Java, Conda (with python) and other R packages ....
 ###  Installation
 1.	Download code and extract files (The “easyScRNA-main” folder will be the work folder).
 2.	Create your own R script for running the pipeline. Working with the “example.R” is recommended (with example commands and parameter settings).
-3.	Download all necessary R packages and load them with command:
+3.	Download all necessary R packages plus other softwares and load them with command:
     ```
     source('functions/Main_functions.R')
     ```
