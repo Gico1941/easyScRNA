@@ -125,7 +125,7 @@ volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,hi
 
 
 kkey_heatmap(object_ = reduced_data, 
-                        key_file='test.xlsx',
+                        key_file='DEG_heatmap_key_example.xlsx',
                         group_level=c('Untreat','Treat'),
                         slot='scale.data',
                         row_cluster=F,
