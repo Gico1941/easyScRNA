@@ -1,8 +1,8 @@
 ######################### heatmap plot
 
 key_heatmap <- function(object_ = reduced_data, 
-                        key_file='DEG_heatmap_GOI_KW.xlsx',
-                        group_level=c('WT','KP3'),
+                        key_file,
+                        group_level,
                         slot='scale.data',
                         row_cluster=F,
                         col_cluster=F,
