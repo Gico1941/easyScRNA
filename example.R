@@ -124,19 +124,13 @@ volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,hi
 ############ heat map plot   level is the order of plotting,for detailed configuration please refer to key_file
 
 
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=T,plot_merged_others=T)
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=T,plot_merged_others=F)
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=F,plot_merged_others=F)
-
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=T,plot_merged_others=T)
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=T,plot_merged_others=F)
-key_heatmap(reduced_data,key_file='Key.xlsx',group_level=c('Ctrl','Treat'),
-            cell_level=c(),slot='scale.data',row_cluster=T,plot_other_clusters=F,plot_merged_others=T)
+kkey_heatmap(object_ = reduced_data, 
+                        key_file='test.xlsx',
+                        group_level=c('Untreat','Treat'),
+                        slot='scale.data',
+                        row_cluster=F,
+                        col_cluster=F,
+                        aggregate='Cell')
 
 
 
