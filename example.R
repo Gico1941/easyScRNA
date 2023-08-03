@@ -2,8 +2,8 @@
 
 source('functions/Main_functions.R')
 
- 
-#easyBuild(force=T) # install all accessories ,only need to be run once
+easyBuild() # install all accessories ,only need to be run once
+#easyBuild(force=T)  # force re-install
 
 
 ##-------------------------------------------------------------------------- configurations
