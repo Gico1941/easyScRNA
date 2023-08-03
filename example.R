@@ -121,7 +121,6 @@ volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,hi
 
 volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_by_keys=T)
 
-
 ############ heat map plot   level is the order of plotting,for detailed configuration please refer to key_file
 
 
