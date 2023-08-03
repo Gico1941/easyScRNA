@@ -29,7 +29,7 @@ find_DEG_bewteen_groups <- function(object_reduced,subset_name='All_cluster',sub
   print(paste0('set : ', control_group,' as control') )
   print(paste0('set : ', variable_group,' as variable') )
   
-  DEG <- FindMarkers(object = object_reduced ,ident.1=control_group,ident.2=variable_group,group.by='group',logfc.threshold =logfc.threshold ,min.pct=min.pct)
+  DEG <- FindMarkers(object = object_reduced ,ident.1=variable_group,ident.2=control_group,group.by='group',logfc.threshold =logfc.threshold ,min.pct=min.pct)
   
   write.csv(DEG,paste0(dir,'/',subset_name,'_group_',paste0(variable_group,collapse='_'),'_vs_group_',paste0(control_group,collapse='_'),'.csv'))
   #return(DEG)

@@ -1,14 +1,12 @@
 ######################### heatmap plot
 
 key_heatmap <- function(object_ = reduced_data, 
-                        key_file='GOI_axonogenesis_KW.xlsx',
+                        key_file='DEG_heatmap_GOI_KW.xlsx',
                         group_level=c('WT','KP3'),
-                        cell_level=c(),
                         slot='scale.data',
-                        row_cluster=T,
+                        row_cluster=F,
                         col_cluster=F,
-                        plot_other_clusters=T,
-                        plot_merged_others=F){
+                        aggregate='Cell'){  ###### aggregate = cell or group
   
   
   DefaultAssay(object_) <- 'RNA'
@@ -22,125 +20,102 @@ key_heatmap <- function(object_ = reduced_data,
     cluster_annotaion$Cluster <- lapply(cluster_annotaion$Cluster,function(x) if(length(grep(',',x))>0 ){unlist(strsplit(x,','))%>% as.numeric()}else{x} ) 
   }
   
-  
-  if(plot_other_clusters==T){
-    others <- '_with others'
-    other_clusters = unique(object_$seurat_clusters)[which(unique(object_$seurat_clusters) %in% unlist(cluster_annotaion$Cluster)==F)]
-    other_clusters <- other_clusters[order(other_clusters)]
-    if(plot_merged_others==T){
-      cluster_annotaion <- rbind(cluster_annotaion,tibble(Cell_annotation= paste0('Other_clusters'),Cluster= list(other_clusters)))
-      merged <- '_merged'
-      
-    }else{
-      cluster_annotaion <- rbind(cluster_annotaion,tibble(Cell_annotation= other_clusters,Cluster= other_clusters))
-      merged <- ''
-     
-    }
-  }else{
-    others=''
-    merged <- ''
-  }
-  
-  ### add annotation info to object for column split
-  object_$annotation<-NA
-  for(x in 1:nrow(cluster_annotaion)){object_$annotation[which(object_$seurat_clusters %in% cluster_annotaion$Cluster[[x]] )] <- cluster_annotaion$Cell_annotation[[x]] }%>% invisible()
-  
   #import gene info for heatmap
   genes_for_plot <- readxl::read_excel(key_file,sheet = 2)
+  genes_for_plot <- genes_for_plot[which(genes_for_plot$Genes%in%rownames(object_)),]
   genes_for_plot <- genes_for_plot[order(genes_for_plot$Order),]
-  if(FALSE %in% is.na(genes_for_plot$Order) ==F){
-    row_cluster=T
-  }
-
   
-  #### filter plot objects and add cell type annotation
-  object_ <- object_[unlist(genes_for_plot$Genes),object_$seurat_clusters %in% unlist(cluster_annotaion$Cluster) ]
-  object_$cell_name <- lapply(object_$seurat_clusters,function(x) cluster_annotaion$Cell_annotation[which(grepl(x,cluster_annotaion$Cluster))[1]] ) %>%unlist()
-  
-  
-  
+  object_ <- object_ [genes_for_plot$Genes,]
   #### within cluster reordering by group/condition/treatment   
   if(length(group_level) == 0){
     group_level <- unique( object_$group)
   }
-  if(length(cell_level) == 0 ){
-    cell_level <- unique( object_$cell_name)
+  
+  extrac_matrix <- function(cluster_info=cluster_annotaion[1,]){
+    matrix <- object_[,object_$seurat_clusters%in%(cluster_info$Cluster%>%unlist())]
+    matrix$cell_name <- lapply(matrix$seurat_clusters,function(x) cluster_info$`Cell annotation`[which(grepl(x,cluster_info$Cluster))] ) %>%unlist()
+    Project(matrix) <- cluster_info$`Cell annotation`
+    return(matrix)
   }
+  matrix_list <- lapply(1:nrow(cluster_annotaion),function(x) extrac_matrix(cluster_annotaion[x,]))
+  
   
 
-  ####### extract expression matrix and meta data
-  object_ <- ScaleData(object_,features = unlist(genes_for_plot$Genes) )
-  plot_matrix <- as.matrix(GetAssayData(object = object_, slot = slot))
   
-  groups <- object_$group
-  groups_and_annotation <-  paste0(object_$annotation,object_$group)
-  cell_names <- object_$cell_name
   
-  if(FALSE %in% (genes_for_plot$Genes %in% rownames(plot_matrix))){
-    index_of_gene_not_found <- which(genes_for_plot$Genes %in% rownames(plot_matrix)==F)
+  #####################
+  
+
+
+  group_ordered=c()
+  cell_ordered = c()
+  plot_matrix_ordered=c()
+  cell_name = c()
+  groups_and_annotation = c()
+  for (mt in matrix_list){
+  
+      mt <- ScaleData(mt,features = unlist(genes_for_plot$Genes) )
+      plot_matrix <- as.matrix(GetAssayData(object = mt, slot = slot))
+      groups <- mt$group
+      groups_and_annotation <-  c(groups_and_annotation,paste0(mt$cell_name,' ',mt$group)[order(factor(groups,levels=group_level))])
+      group_ordered <-  c(group_ordered,groups[order(factor(groups,levels=group_level))])
+      cell_name <- c(cell_name,rep(Project(mt),ncol(plot_matrix)))
+      
+     if(length(plot_matrix_ordered)==0){
+      plot_matrix_ordered <- plot_matrix[,order(factor(groups,levels=group_level))]
+      }else{
+        plot_matrix_ordered <-cbind(plot_matrix_ordered,plot_matrix[,order(factor(groups,levels=group_level))])
+  }}
+
+  
+    ha <- HeatmapAnnotation(
+      `Cell Type` = cell_name,
+      #empty = anno_empty(border = FALSE, height=unit(0.5, "mm")),
+      Group =  group_ordered ,
+      empty = anno_empty(border = FALSE, height=unit(1.5, "mm"))
+    )
     
-    print(paste0('----- WARNING -----: These genes are not found in dataset: ',genes_for_plot$Genes[which(genes_for_plot$Genes %in% rownames(plot_matrix)==F)],' and will be discarded in heatmap'))
-    genes_for_plot <- genes_for_plot[-which(genes_for_plot$Genes %in% rownames(plot_matrix)==F),]
-  }
-  
-  group_ordered <-  groups_and_annotation[order(factor(cell_names,levels = cell_level),factor(groups,levels=group_level))]
-  cell_name_ordered <- cell_names[order(factor(cell_names,levels = cell_level),factor(groups,levels=group_level))]
-  plot_matrix_ordered <- plot_matrix[genes_for_plot$Genes,order(factor(cell_names,levels = cell_level),factor(groups,levels=group_level))]
-  
-  
-  
-  ha <- HeatmapAnnotation(
-    Cell_annotation= cell_name_ordered,
-    #empty = anno_empty(border = FALSE, height=unit(0.5, "mm")),
-    Group =   group_ordered,
-    empty = anno_empty(border = FALSE, height=unit(1.5, "mm"))
-  )
-  
-  # Combine the heatmap and the annotation
-  
-  
-  save_dir <- dir_create('reduced_PLOTs',Project(reduced_data),'')
-  subdir_create(paste0(save_dir,'/Key_heatmap'))
-  ########## row -cluster
-  if(row_cluster==T){
-    row_split = NULL
-    ifrowcluster='_row_Clustered'
-  }else{
-    row_split = genes_for_plot$Order
-    ifrowcluster='_row_Manually_ordered'
-  }
-  
-  ########## col -cluster
-  if(col_cluster==T){
-    ifcolcluster='_col_Clustered'
-    column_split=NULL
-  }else{
-    if(length(unique(cell_name_ordered))>1){
-      column_split = cell_name_ordered
+    # Combine the heatmap and the annotation
+
+    ########## row -cluster
+    if(row_cluster==T){
+      row_split = NULL
+      ifrowcluster='_row_Clustered'
     }else{
-          column_split = group_ordered
+      row_split = genes_for_plot$Order
+      ifrowcluster='_row_Manually_ordered'
     }
     
-    ifcolcluster='_col_Manually_ordered'
-  }
-  ht_opt$message = FALSE
-  pdf(paste0(save_dir,'/Key_heatmap/',slot,'_heatmap_',Project(object_),ifrowcluster,ifcolcluster,key_file,others,merged,'.pdf')
-      ,width=max(7,length(unlist(cluster_annotaion$Cluster))*1))
+    ########## col -cluster
+    if(col_cluster==T){
+      ifcolcluster='_col_Clustered'
+      column_split=NULL
+    }else{
+      if(aggregate=='Cell'){
+        column_split = cell_name
+      }else{
+        column_split = group_ordered
+      }
+        
+      ifcolcluster='_col_Manually_ordered'
+    }
 
-  draw(Heatmap(plot_matrix_ordered, name = "Scaled Normalized Expression", 
-               row_names_gp = gpar(fontsize = 5),
-               column_names_gp =gpar(fontsize = 6) ,
-               #cluster_rows = color_branches(row_dend, k = 5),
-               #cluster_columns = color_branches(col_dend, k = 2),
-               col = circlize::colorRamp2(c(-2,0,2),c("#4575B4","#FFFFBF","#D73027")),         #brewer.pal(10, "RdYlBu")
-               row_split = row_split,
-               column_split = column_split,
-               top_annotation = ha,show_column_names = F,cluster_rows =row_cluster,
-               cluster_columns = col_cluster,heatmap_legend_param = list(direction = "horizontal")
-  ),heatmap_legend_side = "bottom")
+   p <- Heatmap(plot_matrix_ordered, name = " Scaled Normalized Expression", 
+                 row_names_gp = gpar(fontsize = 5),
+                 column_names_gp =gpar(fontsize = 6) ,
+                 #cluster_rows = color_branches(row_dend, k = 5),
+                 #cluster_columns = color_branches(col_dend, k = 2),
+                 col = circlize::colorRamp2(c(-2,0,2),c("#4575B4","#FFFFBF","#D73027")),         #brewer.pal(10, "RdYlBu")
+                 row_split = row_split,
+                 column_split = column_split,
+                 top_annotation = ha,show_column_names = F,cluster_rows =row_cluster,
+                 cluster_columns = col_cluster,heatmap_legend_param = list(direction = "horizontal"))
   
-
-  
+  save_dir <- dir_create('reduced_PLOTs','All','')
+  subdir_create(paste0(save_dir,'/heatmap') )
+  pdf(paste0(save_dir,'/heatmap/',aggregate,slot,'_heatmap_',Project(object_),ifrowcluster,ifcolcluster,key_file,'.pdf'),width = 0.002*ncol(plot_matrix_ordered) )
+  draw(p,auto_adjust = FALSE)
+  ####### extract expression matrix and meta data
   dev.off()
   
   

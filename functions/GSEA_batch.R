@@ -12,18 +12,14 @@ GSEA_batch <- function(
                  `ontology gene sets`='m5.all.v2023.1.Mm.symbols.gmt',
                  `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
     symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
-    out_dir='GSEA',
-    GSEA_plots_number=20
+    out_dir='GSEA'
 ){
   
   rnks <- list.files(DEG_path,recursive=T,pattern = '_all.rnk',full.names = T,include.dirs=T)
-  if(length(rnks)==0){
-    return('No rnk files found')
-  }
   save_dirs <- lapply(rnks, function(x) dir_create(out_dir,strsplit(x,'/')[[1]][2],''))
   rnks <- paste0(getwd(),'\\\\',rnks)
   
-  batch <- function(rnk=rnks[4],gene_set=gene_sets[4],save_dir=save_dirs[4],name){
+  batch <- function(rnk=rnks[1],gene_set=gene_sets[4],save_dir=save_dirs[1],name){
     
     rnk <- gsub('/','\\\\',rnk,fixed = TRUE)
     
@@ -40,8 +36,8 @@ GSEA_batch <- function(
     command <- gsub("_chip_", symbol_chip, command)
     command <- gsub("_gene_set_", gene_set, command)
     command <- gsub("_save_dir_", save_dir, command)
-    command <- gsub("_numberplot_", GSEA_plots_number, command)
     command <- gsub("_the_label_", paste0(basename(save_dir),'--',gsub(' ','_',name)), command,fixed = T)
+    command <- gsub('_cd_',GSEA_path, command)
     print(paste0('Performing enrichment analysis of ---  ',basename(rnk),'  --- with ---  ' ,name,' : ',gene_set,' .....' ))
     system("cmd.exe",input=command,show.output.on.console = F)
     Sys.sleep(1)

@@ -1,13 +1,13 @@
 
 easyBuild <- function(force=F){
   
-  conda_install <- function(){
+  conda_install_ <- function(){
     if(system('conda -v') ==F | force == T )
       installr::install.conda()
   }
   #############download microsoft visual studio for celltypist installation
   celltypist_initialization <- function(){
-    if(grep('vs_BuildTools.exe',list.files())==F | force == T){
+    if(length(grep('vs_BuildTools.exe',list.files())) ==0 | force == T){
       print('Download visual builder')
       download.file('https://aka.ms/vs/17/release/vs_BuildTools.exe','vs_BuildTools.exe', mode = "wb")
       wd <- gsub('/','\\\\',getwd())
@@ -18,18 +18,21 @@ easyBuild <- function(force=F){
 
   ############ create conda environment and install celltypist
   Celltypist_install <- function(packs){
-    if('celltypist'%in%conda_list()$name==F | force == T){
+    if(force==T){
+      conda_remove('celltypist')
+    }
+    if('celltypist'%in%conda_list()$name==F | force==T){
       print('Install celltypist...')
       conda_create('celltypist')
-      
+    }
       installed_packs <- py_list_packages()$package
       for( i in packs){
         if(i %in% installed_packs ==F){
-          conda_install('celltypist',packages = i)
+          conda_install('celltypist',packages = i,channel=c('anaconda','conda-forge','r','bioconda'))
         }}
-    }else{
+    
       print('CellTypist installed...')
-    }}
+    }
   
   ########### install java and GSEA command line
   
@@ -52,9 +55,10 @@ easyBuild <- function(force=F){
     }
     print('Java installed...')
   }
-  conda_install()
+  conda_install_()
   celltypist_initialization()
   Celltypist_install(packs = c('celltypist','scanpy','pandas','numpy','leidenalg'))
+  #system('conda install -c bioconda -c conda-forge celltypist')
   GSEA_download()
   java_install()
   }
