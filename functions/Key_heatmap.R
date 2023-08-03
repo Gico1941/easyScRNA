@@ -1,8 +1,8 @@
 ######################### heatmap plot
 
 key_heatmap <- function(object_ = reduced_data, 
-                        key_file,
-                        group_level,
+                        key_file='test.xlsx',
+                        group_level=c('WT','KP3'),
                         slot='scale.data',
                         row_cluster=F,
                         col_cluster=F,
@@ -54,7 +54,7 @@ key_heatmap <- function(object_ = reduced_data,
   groups_and_annotation = c()
   for (mt in matrix_list){
   
-      mt <- ScaleData(mt,features = unlist(genes_for_plot$Genes) )
+      #mt <- ScaleData(mt,features = unlist(genes_for_plot$Genes) )
       plot_matrix <- as.matrix(GetAssayData(object = mt, slot = slot))
       groups <- mt$group
       groups_and_annotation <-  c(groups_and_annotation,paste0(mt$cell_name,' ',mt$group)[order(factor(groups,levels=group_level))])
@@ -99,7 +99,9 @@ key_heatmap <- function(object_ = reduced_data,
         
       ifcolcluster='_col_Manually_ordered'
     }
-
+#colnames(plot_matrix_ordered)
+    #unique(colnames(plot_matrix_ordered))
+    
    p <- Heatmap(plot_matrix_ordered, name = " Scaled Normalized Expression", 
                  row_names_gp = gpar(fontsize = 5),
                  column_names_gp =gpar(fontsize = 6) ,
@@ -113,7 +115,7 @@ key_heatmap <- function(object_ = reduced_data,
   
   save_dir <- dir_create('reduced_PLOTs','All','')
   subdir_create(paste0(save_dir,'/heatmap') )
-  pdf(paste0(save_dir,'/heatmap/',aggregate,slot,'_heatmap_',Project(object_),ifrowcluster,ifcolcluster,key_file,'.pdf'),width = 0.002*ncol(plot_matrix_ordered) )
+  pdf(paste0(save_dir,'/heatmap/',aggregate,slot,'_heatmap_',Project(object_),ifrowcluster,ifcolcluster,key_file,'.pdf'),width = max(7,0.002*ncol(plot_matrix_ordered)) )
   draw(p,auto_adjust = FALSE)
   ####### extract expression matrix and meta data
   dev.off()
