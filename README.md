@@ -161,20 +161,34 @@ find DEG between cluster 8 and all other clusters in water and untreated merged 
 
 Generate volcano plot for all DEG .csv files :
 ```
-volcano(DEG_path='DEG',p_hold = 0.01,log2_fc_hold = 0.4,tops=10)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F)
+```
+To highlight specific genes in volcanoplot: create a "highlight_key.txt" under the subfolders of DEG, e.g:
+
+highlight_key.txt :
+```
+Cd8a
+Pdcd1
+Cd3e
+... 
+```
+```
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_by_keys=T)
+
 ```
 
 tops is the number of top DEGs that will be highlighted
 
 ### heatmap visualization
-To visualize gene expression difference, generate heatmap with heatmap_key.xlsx and reduced_data. Plot the row by manual order :
+To visualize gene expression difference, generate heatmap with heatmap_key.xlsx and reduced_data :
 ```
-key_heatmap(reduced_data,key_file='DEG_heatmap_key.xlsx',group_level=c('WT','KP3'),cell_level=c(6,7,8),slot='scale.data',row_cluster=F)
-
-```
-Or Plot the row by cluster order :
-```
-key_heatmap(reduced_data,key_file='DEG_heatmap_key.xlsx',group_level=c('WT','KP3'),cell_level=c(6,7,8),slot='scale.data',row_cluster=F)
+key_heatmap(object_ = reduced_data, 
+                        key_file='test.xlsx',
+                        group_level=c('WT','KP3'),
+                        slot='scale.data',
+                        row_cluster=F,
+                        col_cluster=F,
+                        aggregate='Cell') # aggregate by "cell" or "group"
 
 ```
 
@@ -183,17 +197,19 @@ group_level / cell_level represents the plotting orders and should be exactly ma
 ### Gene set enrichment and visualization
 To perform batch Gene set enrichment analysis with GSEA software and MsigDB, run (if host is mouse):
 ```
-  GSEA_batch(
-    DEG_path='DEG',
-    gene_sets =c(`hallmark gene sets`='mh.all.v2023.1.Mm.symbols.gmt',
-                 `positional gene sets`='m1.all.v2023.1.Mm.symbols.gmt',
-                 `curated gene sets`='m2.all.v2023.1.Mm.symbols.gmt',
-                 `regulatory target gene sets`='m3.all.v2023.1.Mm.symbols.gmt',
-                 `ontology gene sets`='m5.all.v2023.1.Mm.symbols.gmt',
-                 `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
-    symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
-    out_dir='GSEA'
-  )
+GSEA_batch(
+  DEG_path='DEG',
+  gene_sets =c(`hallmark gene sets`='mh.all.v2023.1.Mm.symbols.gmt',
+               `positional gene sets`='m1.all.v2023.1.Mm.symbols.gmt',
+               `curated gene sets`='m2.all.v2023.1.Mm.symbols.gmt',
+               `regulatory target gene sets`='m3.all.v2023.1.Mm.symbols.gmt',
+               `ontology gene sets`='m5.all.v2023.1.Mm.symbols.gmt',
+               `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
+  symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
+  out_dir='GSEA',
+  GSEA_plots_number=30
+)   #GSEA_plots_number=30 : max lines displayed in GSEA result (default : top 20)
+
 ```
 or replace the symbol_chip and gene_sets for human data analysis
 ```
