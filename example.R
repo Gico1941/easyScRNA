@@ -117,7 +117,10 @@ find_DEG_beCtrleen_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_clu
 DEG2RNK(DEG_path='DEG',p_hold=rnk.padj_hold,log2fc_hold=rnk.log2fc_hold,remove_mt_header=F)
 
 ############# volcano plot
-volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,top_by='avg_log2FC')
+
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,hightlight_by_keys=T)
+
 
 ############ heat map plot   level is the order of plotting,for detailed configuration please refer to key_file
 
@@ -150,7 +153,8 @@ GSEA_batch(
                `ontology gene sets`='m5.all.v2023.1.Mm.symbols.gmt',
                `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
   symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
-  out_dir='GSEA'
+  out_dir='GSEA',
+  GSEA_plots_number=30
 )
 
 ############## bubble plot of GSEA
