@@ -72,6 +72,7 @@ key_heatmap <- function(object_ = reduced_data,
       `Cell Type` = cell_name,
       #empty = anno_empty(border = FALSE, height=unit(0.5, "mm")),
       Group =  group_ordered ,
+     col = list(Group = c(group = "blue", "KP3" = "red")),
       empty = anno_empty(border = FALSE, height=unit(1.5, "mm"))
     )
     
@@ -82,7 +83,7 @@ key_heatmap <- function(object_ = reduced_data,
       row_split = NULL
       ifrowcluster='_row_Clustered'
     }else{
-      row_split = genes_for_plot$Order
+      row_split = row_split = genes_for_plot$Order[order(factor(genes_for_plot$Genes,levels=rownames(plot_matrix_ordered)))]
       ifrowcluster='_row_Manually_ordered'
     }
     
