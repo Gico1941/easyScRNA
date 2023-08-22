@@ -6,7 +6,8 @@ key_heatmap <- function(object_ = reduced_data,
                         slot='scale.data',
                         row_cluster=F,
                         col_cluster=F,
-                        aggregate='Cell'){  ###### aggregate = cell or group
+                        aggregate='Cell',
+                       group_color=c('WT'='red','KP3'='blue'){  ###### aggregate = cell or group
   
   
   DefaultAssay(object_) <- 'RNA'
@@ -72,7 +73,7 @@ key_heatmap <- function(object_ = reduced_data,
       `Cell Type` = cell_name,
       #empty = anno_empty(border = FALSE, height=unit(0.5, "mm")),
       Group =  group_ordered ,
-     col = list(Group = c(group = "blue", "KP3" = "red")),
+     col = list(Group = group_color),
       empty = anno_empty(border = FALSE, height=unit(1.5, "mm"))
     )
     
