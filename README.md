@@ -87,7 +87,20 @@ specify other required numeric parameters (as shown in example.R):
   ```
 3. object_data will contain two types of seurat object : 1. "All" : Object integrated from all groups . 2. Object of each individual group.
 4. Plots will be saved in PLOTs/, QC/ and RDS/
-   
+#### Sample results (use GSE166635 as example)
+#### QC of GSM5076750
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/ba54faaa-d8d4-4815-b207-2a36fba467ea" width="300" />
+
+#### UMAP of GSM5076750
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/7ef0801e-ff22-4446-a28a-c7e7d50d40bb" width="300" />
+
+#### heatmap of top100 variable genes
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/6fe24aa5-6c27-490f-8948-173f326beb37" width="300" />
+
+#### Split violin plot for certain feature
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/6ddd1c5e-af53-4d50-b10c-4316564f25bc" width="300" />
+
+
 ### cluster filtering
 1. continue with the "standard processing", specify additional features that you may want to plot :
    ```
