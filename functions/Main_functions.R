@@ -39,7 +39,7 @@ vol_plot.log2fc_hold = 0.3
 
 source_all <- function(function_path='functions'){
   utilities <- list.files(function_path,pattern = '.R',full.names = T,recursive = F)
-  utilities <- utilities[-grep('Main_functions',utilities,fixed = T)]
+  #utilities <- utilities[-grep('Main_functions',utilities,fixed = T)]
   invisible(lapply(utilities,source) )
 }
 # load prerequisites packages
