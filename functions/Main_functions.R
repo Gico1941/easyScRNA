@@ -42,16 +42,16 @@ source_all <- function(function_path='functions'){
   utilities <- utilities[-grep('Main_functions',utilities,fixed = T)]
   invisible(lapply(utilities,source) )
 }
+# load prerequisites packages
+source_all('functions/Pre') 
+# load utilities
+source_all('functions/Pro') 
 
-source_all() 
-
-use_condaenv('celltypist')
-celltypist = import('celltypist')
-scanpy= import('scanpy')
-pandas= import('pandas')
-numpy= import('numpy')
-
-
+#use_condaenv('celltypist')
+#celltypist = import('celltypist')
+#scanpy= import('scanpy')
+#pandas= import('pandas')
+#numpy= import('numpy')
 
 ############## main funcions
 standard_processing <- function(read=F,save=T){

@@ -1,8 +1,9 @@
 
-
 source('functions/Main_functions.R')
 
-easyBuild() # install all accessories ,only need to be run once
+# install all necessary software
+easyBuild()
+
 #easyBuild(force=T)  # force re-install
 
 
@@ -12,7 +13,7 @@ easyBuild() # install all accessories ,only need to be run once
 GSEA_path = 'GSEA_4.3.2'
 
 ###### import parameters
-raw_file_folder='Raw'
+raw_file_folder='GSE166635'
 min.cells = 3
 min.features = 200
 
@@ -35,7 +36,7 @@ UMAP_resolution <- 0.6
 UMAP_max_dims <- 50
 
 ## feature plot 
-plot_feature = c('Cd3e','Cd4','Cd8a')
+plot_feature = c('Egfr')
 
 ##### additional feature to plot after reduction
 
@@ -56,6 +57,9 @@ vol_plot.log2fc_hold = 0.3
 
 
 #----------------------------------------------------- make sure all folder are at the same dir level
+
+
+
 
 object_data <- standard_processing(read=F,save=T)
 
@@ -157,6 +161,12 @@ GSEA_bubble(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20)
 ############ run CellTypist
 Model_download(model_path = 'CelltypistModel')           ######### install models 
 Model_list(model_path = 'CelltypistModel')             ####### list avalible models
+
+use_condaenv('celltypist')
+celltypist = import('celltypist')
+scanpy= import('scanpy')
+pandas= import('pandas')
+numpy= import('numpy')
 
 predicted_data <- Runcelltypist(dt = reduced_data,model='Immune_All_Low',majority_voting = T)
 predicted_datadas <- Runcelltypist(dt = reduced_data,model='Immune_All_Low',majority_voting = F)
