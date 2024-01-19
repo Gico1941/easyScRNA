@@ -11,7 +11,7 @@ R (version 4.3.0)
 R studio
 
 
-### What will be built in pipeline ?
+### What will be automatically built in pipeline ?
 
 Microsoft C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
