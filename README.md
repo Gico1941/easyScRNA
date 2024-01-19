@@ -12,6 +12,7 @@ R studio
 
 
 ### What will be automatically built in pipeline ?
+Seurat 4.3.0 (https://satijalab.org/seurat)
 
 Microsoft C++ Build Tools (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 
