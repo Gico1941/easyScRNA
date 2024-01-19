@@ -137,7 +137,7 @@ d1+d2
 
 
 
-### DEG discovery
+### DEG (differentially expressed genes) discovery
 Pipeline contains two modes of DEG discovery :
 1. Find DEG between different groups but in same cell populatiton (find DEG in cluster 8 between untreated group and treated group):
    ```
