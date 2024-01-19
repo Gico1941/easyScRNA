@@ -1,7 +1,7 @@
 
 source('functions/Main_functions.R')
 
-# install all necessary software
+# install all necessary software, only need to run once
 easyBuild()
 
 #easyBuild(force=T)  # force re-install
