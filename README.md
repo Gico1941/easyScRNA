@@ -140,27 +140,33 @@ d1+d2
 
 ### DEG (differentially expressed genes) discovery
 Pipeline contains two modes of DEG discovery :
-1. Find DEG between different groups but in same cell populatiton (find DEG in cluster 8 between untreated group and treated group):
+1. Find DEG between different groups but for same cell populatiton (find DEG in cluster 6 between HCC1 group and HCC2 group):
    ```
-   find_DEG_bewteen_groups(reduced_data,subset_cluster = 8,subset_name = 'Cd74+',control_group = 'UNTREATED',variable_group = 'TREATED',save_folder='DEG')
+   find_DEG_between_groups(reduced_data,subset_cluster = 6,subset_name = 'cluster6',control_group = 'HCC1',variable_group = 'HCC2',save_folder='DEG') 
    ```
+   
+![1705878888644](https://github.com/Gico1941/easyScRNA/assets/127346166/17347345-9562-4c5d-bad3-9b5de9086062)
+
+
 subset_cluster is the corresponding cluster number of "reduced_data" (reduced_PLOTs); subset_name is customized label for that population; Control_group and variable_group should be exact match to the origin group names (same as group folder names).
 
-for multiple input :
+For multiple subset input :
    ```
-   find_DEG_bewteen_groups(reduced_data,subset_cluster = c(4,5,8),subset_name = 'Cd74+',control_group = c('UNTREATED','WATER'),variable_group = C('CHEMICAL_A','CHEMICAL_B'),save_folder='DEG')
+   find_DEG_bewteen_groups(reduced_data,subset_cluster = c(4,5,8),subset_name = 'subsetA',control_group = c('UNTREATED','WATER'),variable_group = C('CHEMICAL_A','CHEMICAL_B'),save_folder='DEG')
    ```
 2. Find DEG between different population but in same group (find DEG between cluster 6 and 8 in untreated group):
    ```
    find_DEG_bewteen_clusters(reduced_data,subset_name='Subset_A',control_cluster=6,subset_group='UNTREATED',variable_cluster=8)
    ```
-subset_group name should be exact match to group name (group folder name)
+
+subset_group name should be exact match to group name (group folder name), specify one cluster as variable while set control cluster as "c()" to use all other clusters as control.
    
    ```
-   find_DEG_bewteen_clusters(reduced_data,subset_name='Subset_A',control_cluster=c(),subset_group='UNTREATED',variable_cluster=8)
+   find_DEG_between_clusters(reduced_data,subset_name='HCC1_only_cluster6_vs_others',control_cluster=c(),subset_group='HCC1',variable_cluster=6)
    ```
-specify one cluster as variable while set control cluster as "c()" to use all other clusters as control.
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/635fa2bc-db01-4430-8d0a-e44f7ebc22ed" width="800" />
 
+#### Or
    ```
    find_DEG_bewteen_clusters(reduced_data,subset_name='Subset_A',control_cluster=8,subset_group='UNTREATED',variable_cluster=c())
    ```
@@ -169,15 +175,24 @@ find DEG between cluster 8 and all other clusters in water and untreated merged 
    find_DEG_bewteen_clusters(reduced_data,subset_name='Subset_A',control_cluster=8,subset_group=c('WATER','UNTREATED'),variable_cluster=c())
    ```
 
-3. For downstream enrichment analysis, convert DEG .csv file to .rnk file with :
+3. For downstream GSEA (Gene set enrichment analysis), convert DEG .csv file to .rnk file with the command :
    ```
    DEG2RNK(DEG_path='DEG',p_hold=0.1,log2fc_hold=0)
    ```
 
-Generate volcano plot for all DEG .csv files :
+That will add three .rnk files in addition to the DEG .csv file
+
+
+![1705879279416](https://github.com/Gico1941/easyScRNA/assets/127346166/ba35ec72-2e6f-4051-befc-1d47abee2450)
+
+
+Generate volcano plot for all DEG .csv files (tops: number of top dots you want to annotate and highlight):
 ```
-volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.1,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F,height=7,width=4)
 ```
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/2a562cfc-b6e2-4b47-9658-4408af58a4b8" width="800" />
+
+
 To highlight specific genes in volcanoplot: create a "highlight_key.txt" under the subfolders of DEG, e.g:
 
 highlight_key.txt :
