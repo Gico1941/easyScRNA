@@ -190,7 +190,7 @@ Generate volcano plot for all DEG .csv files (tops: number of top dots you want 
 ```
 volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.1,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F,height=7,width=4)
 ```
-<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/2a562cfc-b6e2-4b47-9658-4408af58a4b8" width="800" />
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/2a562cfc-b6e2-4b47-9658-4408af58a4b8" width="600" />
 
 
 To highlight specific genes in volcanoplot: create a "highlight_key.txt" under the subfolders of DEG, e.g:
@@ -203,11 +203,13 @@ Cd3e
 ... 
 ```
 ```
-volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_by_keys=T)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.1,tops=10,highlight_by_keys=T,width=4,height=4)
 
 ```
+For example (highlight the CD55,IL7R,FABP1 in previous volcano plot)
 
-tops is the number of top DEGs that will be highlighted
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/0ba547b2-bf8f-4f5c-bb95-9efa5b20b5f9" width="600" />
+
 
 ### heatmap visualization
 To visualize gene expression difference, generate heatmap with heatmap_key.xlsx and reduced_data :
@@ -221,6 +223,71 @@ key_heatmap(object_ = reduced_data,
                         aggregate='Cell') # aggregate by "cell" or "group"
 
 ```
+### heatmap example 1  | Aggregate by Cell:
+sheet 1 :
+| Cell annotation  | Cluster |
+| ------------- | -------- |
+| cell set1 | 6       |
+| cell set2  | 7,8,9  | 
+| cell set3 | 5 |
+
+
+sheet 2 :
+| Genes  | Order |
+| ------------- | -------- |
+| CD55 | 1       |
+| IL7R  | 2  | 
+| FABP1  | 3  | 
+
+
+```
+key_heatmap(object_ = reduced_data, 
+                        key_file='DEG_heatmap_key_example.xlsx',
+                        group_level=c('HCC1','HCC2'),
+                        slot='scale.data',
+                        row_cluster=F,
+                        col_cluster=F,
+                        aggregate='Cell',
+            group_color = c('HCC1'='red','HCC2'='blue'))
+
+```
+
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/b29f0a62-5677-4bb7-b2ee-38571eab044d" width="600" />
+
+
+### heatmap example 2  | Aggregate by Group:
+
+
+sheet 1 :
+| Cell annotation  | Cluster |
+| ------------- | -------- |
+| cell set1 | 6       |
+| cell set2  | 7,8,9  | 
+| cell set3 | 5 |
+
+
+sheet 2 :
+| Genes  | Order |
+| ------------- | -------- |
+| CD55 | 1       |
+| IL7R  | 2  | 
+| FABP1  | 3  | 
+
+
+```
+key_heatmap(object_ = reduced_data, 
+            key_file='DEG_heatmap_key_example.xlsx',
+            group_level=c('HCC1','HCC2'),
+            slot='scale.data',
+            row_cluster=F,
+            col_cluster=F,
+            aggregate='Group',
+            group_color = c('HCC1'='red','HCC2'='blue'))
+```
+
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/fbadff9b-4921-4c33-a63c-dccf7f117f2f" width="600" />
+
+
 
 group_level / cell_level represents the plotting orders and should be exactly match to group folder name / cluster numbers provided in heatmap_key.xlsx
 
