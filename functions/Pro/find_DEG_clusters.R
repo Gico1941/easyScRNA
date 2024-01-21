@@ -2,7 +2,7 @@
 
 ################################################## find_DEG_bewteen_clusters (in specific groups)
 
-find_DEG_bewteen_clusters <- function(object_reduced=reduced_data,subset_name='All_group',subset_group=c(),control_cluster=1,variable_cluster=2,logfc.threshold =DEG.logfc.threshold,min.pct=DEG.min.pct,save_folder='DEG'){
+find_DEG_between_clusters <- function(object_reduced=reduced_data,subset_name='All_group',subset_group=c(),control_cluster=1,variable_cluster=2,logfc.threshold =DEG.logfc.threshold,min.pct=DEG.min.pct,save_folder='DEG'){
   object_reduced@active.assay = 'RNA'  
   if(length(subset_group)!=0 ){
     print(paste0('Looking for DEG in groups : ',paste0(subset_group,collapse = ',') ))
