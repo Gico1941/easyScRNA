@@ -100,6 +100,7 @@ specify other required numeric parameters (as shown in example.R):
 #### Split violin plot for certain feature
 <img src="https://github.com/Gico1941/easyScRNA/assets/127346166/6ddd1c5e-af53-4d50-b10c-4316564f25bc" width="300" />
 
+#### Dot plot, Feature plot, PCA and other plots
 
 ### cluster filtering
 1. continue with the "standard processing", specify additional features that you may want to plot :
