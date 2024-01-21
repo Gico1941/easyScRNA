@@ -1,8 +1,14 @@
 
 ###################### volcano plot for all DEG csv
 
-volcano <- function(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = vol_plot.log2fc_hold,tops=10,highlight_top_by='p_val_adj',highlight_by_keys=T){
-  
+volcano <- function(DEG_path='DEG',
+                    p_hold = vol_plot.padj_hold,
+                    log2_fc_hold = vol_plot.log2fc_hold,
+                    tops=10,
+                    highlight_top_by='p_val_adj',
+                    highlight_by_keys=T,
+                    width=7,
+                    height=7){
   if(highlight_top_by %in% c('p_val_adj','avg_log2FC')==F){
     return('Plot failed, avaliable highlight_top_by options : p_val_adj,avg_log2FC')
   }
@@ -64,7 +70,7 @@ volcano <- function(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = vo
       geom_text_repel(data=data_highlight,aes(x=avg_log2FC,y=-log10(p_val_adj),color='black',label = gene),position='jitter',show.legend = FALSE,size=1)
       
     
-    ggsave(paste0(strsplit(csv_file,'.csv')[[1]][1],'_',highlight_by,'.pdf') ,plot,width = 7,height=7)
+    ggsave(paste0(strsplit(csv_file,'.csv')[[1]][1],'_',highlight_by,'.pdf') ,plot,width = width,height=height)
     
     
     
