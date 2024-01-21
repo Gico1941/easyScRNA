@@ -84,36 +84,36 @@ call_info(reduced_data)
 ###### find DEGs examples  / supports multiple cluster and group input        no white space in subset_name
 
 ######### DEG within all groups in all clusters
-find_DEG_beCtrleen_groups(reduced_data,subset_name='All_cluster',control_group = 'Ctrl',variable_group = 'Treat',logfc.threshold=0.1,min.pct=0.1)
+find_DEG_between_groups(reduced_data,subset_name='All_cluster',control_group = 'Ctrl',variable_group = 'Treat',logfc.threshold=0.1,min.pct=0.1)
 
-######### DEG between two groups (Ctrl and Treat) in kcng1+ (7 seventh) clusters
-find_DEG_beCtrleen_groups(reduced_data,subset_cluster = 6,subset_name = 'cluster6',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+######### DEG between two groups (Ctrl and Treat) in  (6/8) clusters
+find_DEG_between_groups(reduced_data,subset_cluster = 6,subset_name = 'cluster6',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
 
-find_DEG_beCtrleen_groups(reduced_data,subset_cluster = 8,subset_name = 'cluster8',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+find_DEG_between_groups(reduced_data,subset_cluster = 8,subset_name = 'cluster8',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
 
 ######## DEG between two groups (Ctrl and Treat) in all clusters but  (7,8 clusters) !!
-#find_DEG_beCtrleen_groups(reduced_data,subset_cluster = c(-7,-8),subset_name = 'cluster 7&8 excluded',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+#find_DEG_between_groups(reduced_data,subset_cluster = c(-7,-8),subset_name = 'cluster 7&8 excluded',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
 
 ########## cluster6,7 vs cluster5 in all groups
-#find_DEG_beCtrleen_clusters(reduced_data,subset_name='All_group',control_cluster=5,variable_cluster=c(6,7))
+#find_DEG_between_clusters(reduced_data,subset_name='All_group',control_cluster=5,variable_cluster=c(6,7))
 
 ########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control)as c()  to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Ctrl_only_cluster6_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=6)
+find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster6_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=6)
 
 ########### cluster 7 vs other clusters in Treat   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Treat_only_cluster6_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=6)
+find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster6_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=6)
 
 ########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control) as c()to c() to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=8)
+find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=8)
 
 ########### cluster 7 vs other clusters in Treat   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=8)
+find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=8)
 
 ########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Ctrl',variable_cluster=8)
+find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Ctrl',variable_cluster=8)
 
 ########### cluster 7 vs other clusters in Treat   #### set one cluster to c() to use all other clusters
-find_DEG_beCtrleen_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Treat',variable_cluster=8)
+find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Treat',variable_cluster=8)
 
 #----------------------------------------------------------------- other plots  
 
