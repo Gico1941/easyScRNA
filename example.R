@@ -84,36 +84,36 @@ call_info(reduced_data)
 ###### find DEGs examples  / supports multiple cluster and group input        no white space in subset_name
 
 ######### DEG within all groups in all clusters
-find_DEG_between_groups(reduced_data,subset_name='All_cluster',control_group = 'Ctrl',variable_group = 'Treat',logfc.threshold=0.1,min.pct=0.1)
+find_DEG_between_groups(reduced_data,subset_name='All_cluster',control_group = 'HCC1',variable_group = 'HCC2',logfc.threshold=0.1,min.pct=0.1)
 
-######### DEG between two groups (Ctrl and Treat) in  (6/8) clusters
-find_DEG_between_groups(reduced_data,subset_cluster = 6,subset_name = 'cluster6',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+######### DEG between two groups (HCC1 and HCC2) in kcng1+ (7 seventh) clusters
+find_DEG_between_groups(reduced_data,subset_cluster = 6,subset_name = 'cluster6',control_group = 'HCC1',variable_group = 'HCC2',save_folder='DEG')  
 
-find_DEG_between_groups(reduced_data,subset_cluster = 8,subset_name = 'cluster8',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+find_DEG_between_groups(reduced_data,subset_cluster = 8,subset_name = 'cluster8',control_group = 'HCC1',variable_group = 'HCC2',save_folder='DEG')  
 
-######## DEG between two groups (Ctrl and Treat) in all clusters but  (7,8 clusters) !!
-#find_DEG_between_groups(reduced_data,subset_cluster = c(-7,-8),subset_name = 'cluster 7&8 excluded',control_group = 'Ctrl',variable_group = 'Treat',save_folder='DEG')  
+######## DEG between two groups (HCC1 and HCC2) in all clusters but  (7,8 clusters) !!
+#find_DEG_between_groups(reduced_data,subset_cluster = c(-7,-8),subset_name = 'cluster 7&8 excluded',control_group = 'HCC1',variable_group = 'HCC2',save_folder='DEG')  
 
 ########## cluster6,7 vs cluster5 in all groups
 #find_DEG_between_clusters(reduced_data,subset_name='All_group',control_cluster=5,variable_cluster=c(6,7))
 
-########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control)as c()  to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster6_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=6)
+########### cluster 7 vs other clusters in HCC1   #### set one cluster(variable / control)as c()  to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC1_only_cluster6_vs_others',control_cluster=c(),subset_group='HCC1',variable_cluster=6)
 
-########### cluster 7 vs other clusters in Treat   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster6_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=6)
+########### cluster 7 vs other clusters in HCC2   #### set one cluster(variable / control) as c() to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC2_only_cluster6_vs_others',control_cluster=c(),subset_group='HCC2',variable_cluster=6)
 
-########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control) as c()to c() to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_others',control_cluster=c(),subset_group='Ctrl',variable_cluster=8)
+########### cluster 7 vs other clusters in HCC1   #### set one cluster(variable / control) as c()to c() to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC1_only_cluster8_vs_others',control_cluster=c(),subset_group='HCC1',variable_cluster=8)
 
-########### cluster 7 vs other clusters in Treat   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_others',control_cluster=c(),subset_group='Treat',variable_cluster=8)
+########### cluster 7 vs other clusters in HCC2   #### set one cluster(variable / control) as c() to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC2_only_cluster8_vs_others',control_cluster=c(),subset_group='HCC2',variable_cluster=8)
 
-########### cluster 7 vs other clusters in Ctrl   #### set one cluster(variable / control) as c() to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Ctrl_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Ctrl',variable_cluster=8)
+########### cluster 7 vs other clusters in HCC1   #### set one cluster(variable / control) as c() to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC1_only_cluster8_vs_cluster6',control_cluster=6,subset_group='HCC1',variable_cluster=8)
 
-########### cluster 7 vs other clusters in Treat   #### set one cluster to c() to use all other clusters
-find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_cluster6',control_cluster=6,subset_group='Treat',variable_cluster=8)
+########### cluster 7 vs other clusters in HCC2   #### set one cluster to c() to use all other clusters
+find_DEG_between_clusters(reduced_data,subset_name='HCC2_only_cluster8_vs_cluster6',control_cluster=6,subset_group='HCC2',variable_cluster=8)
 
 #----------------------------------------------------------------- other plots  
 
@@ -121,26 +121,50 @@ find_DEG_between_clusters(reduced_data,subset_name='Treat_only_cluster8_vs_clust
 DEG2RNK(DEG_path='DEG',p_hold=rnk.padj_hold,log2fc_hold=rnk.log2fc_hold,remove_mt_header=F)
 
 ############# volcano plot
-volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.1,tops=10,highlight_top='avg_log2FC',highlight_by_keys=F,width=7,height=4)
 
-volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,highlight_by_keys=T)
+volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.1,tops=10,highlight_by_keys=T,width=7,height=4)
 
 ############ heat map plot   level is the order of plotting,for detailed configuration please refer to key_file
 
 
 key_heatmap(object_ = reduced_data, 
                         key_file='DEG_heatmap_key_example.xlsx',
-                        group_level=c('Untreat','Treat'),
+                        group_level=c('HCC1','HCC2'),
                         slot='scale.data',
                         row_cluster=F,
                         col_cluster=F,
-                        aggregate='Cell')
+                        aggregate='Cell',
+            group_color = c('HCC1'='red','HCC2'='blue'))
 
-
+key_heatmap(object_ = reduced_data, 
+            key_file='DEG_heatmap_key_example.xlsx',
+            group_level=c('HCC1','HCC2'),
+            slot='scale.data',
+            row_cluster=F,
+            col_cluster=F,
+            aggregate='Group',
+            group_color = c('HCC1'='red','HCC2'='blue'))
 
 
 
 ############ GSEA auto
+GSEA_batch(
+  DEG_path='DEG',
+  species = 'human',  #'human' / 'mouse'
+  gene_sets =c(`hallmark gene sets`='h.all.v2023.2.Hs.symbols.gmt',
+               `positional gene sets`='c1.all.v2023.2.Hs.symbols.gmt',
+               `curated gene sets`='c2.all.v2023.2.Hs.symbols.gmt',
+               `regulatory target gene sets`='c3.all.v2023.2.Hs.symbols.gmt',
+               `ontology gene sets`='c6.all.v2023.2.Hs.symbols.gmt',
+               `cell type signature gene sets`='c8.all.v2023.2.Hs.symbols.gmt'),
+  symbol_chip='Human_Gene_Symbol_with_Remapping_MSigDB.v2023.2.Hs.chip',
+  out_dir='GSEA',
+  GSEA_plots_number=10,
+  collapse ='Collapse' # Remap_Only / No_Collapse / Collapse
+)
+
+
 GSEA_batch(
   DEG_path='DEG',
   species = 'mouse',
@@ -155,22 +179,6 @@ GSEA_batch(
   GSEA_plots_number=30,
   collapse ='Collapse'
   
-)
-
-
-GSEA_batch(
-  DEG_path='DEG',
-  species = 'human',  #'human' / 'mouse'
-  gene_sets =c(`hallmark gene sets`='h.all.v2023.2.Hs.symbols.gmt',
-               `positional gene sets`='c1.all.v2023.2.Hs.symbols.gmt',
-               `curated gene sets`='c2.all.v2023.2.Hs.symbols.gmt',
-               `regulatory target gene sets`='c3.all.v2023.2.Hs.symbols.gmt',
-               `ontology gene sets`='c6.all.v2023.2.Hs.symbols.gmt',
-               `cell type signature gene sets`='c8.all.v2023.2.Hs.symbols.gmt'),
-  symbol_chip='Human_Gene_Symbol_with_Remapping_MSigDB.v2023.2.Hs.chip',
-  out_dir='GSEA',
-  GSEA_plots_number=10,
-  collapse ='Collapse' # Remap_Only / No_Collapse / Collapse
 )
 
 
