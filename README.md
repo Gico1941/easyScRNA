@@ -221,7 +221,6 @@ key_heatmap(object_ = reduced_data,
                         row_cluster=F,
                         col_cluster=F,
                         aggregate='Cell') # aggregate by "cell" or "group"
-
 ```
 ### heatmap example 1  | Aggregate by Cell:
 sheet 1 :
@@ -249,7 +248,6 @@ key_heatmap(object_ = reduced_data,
                         col_cluster=F,
                         aggregate='Cell',
             group_color = c('HCC1'='red','HCC2'='blue'))
-
 ```
 
 <img src="https://github.com/Gico1941/easyScRNA/assets/127346166/b29f0a62-5677-4bb7-b2ee-38571eab044d" width="600" />
@@ -308,15 +306,6 @@ species = 'mouse',
   GSEA_plots_number=30,
 collapse='Collapse'
 )   #GSEA_plots_number=30 : max lines displayed in GSEA result (default : top 20)
-
-
-
-
-
-
-
-
-
 ```
 or replace the symbol_chip and gene_sets for human data analysis
 ```
@@ -332,14 +321,25 @@ species = 'human',
   symbol_chip='Human_Gene_Symbol_with_Remapping_MSigDB.v2023.1.Hs.chip',
   out_dir='GSEA',
   GSEA_plots_number=30,
-  collapse ='Remap_Only'
+  collapse ='Collapse'
 )   #GSEA_plots_number=30 : max lines displayed in GSEA result (default : top 20)
 ```
 
-visualization with bubble plot :
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/5f48e122-0c73-4ebf-a782-ced9818d82e9" width="400" />
+
+
+visualize all GSEA results with bubble plot :
 ```
 GSEA_bubble(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20)
 ```
+
+
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/6c0a82f7-0623-4068-8861-6c7f2ce51040" width="400" />
+
+
+<img src="https://github.com/Gico1941/easyScRNA/assets/127346166/8076162a-4ddc-4b6e-9de7-827bd1f01fca" width="300" />
+
+
 specify fdr_top to plot the top enriched pathways ranked by fdr
 
 
