@@ -2,7 +2,6 @@
 
 #############################
 GSEA_bubble <- function(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20){
-  
   files <- list.files(GSEA_folder,pattern='gsea_report_for',recursive = T,full.names = T)
   files <- data.frame(file_name=grep('.tsv',files,value = T))
   files$ident <- lapply(files$file_name,function(x) str_sub(x,-17,-1)) %>% unlist() %>% invisible()
@@ -47,7 +46,7 @@ GSEA_bubble <- function(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20){
     lapply(1:length(data),function(x) plot(data[[x]]) )
     
   }
-  lapply(1:nrow(files),function(x) batch(files$ident[x],files$file_name[x]))
+  lapply(1:nrow(files),function(x) try(batch(files$ident[x],files$file_name[x])))
   return('GSEA plot finished ....')
 }
 
