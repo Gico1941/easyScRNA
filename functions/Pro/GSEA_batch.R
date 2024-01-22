@@ -5,6 +5,7 @@
 
 GSEA_batch <- function(
     DEG_path='DEG',
+    species = 'mouse',
     gene_sets =c(`hallmark gene sets`='mh.all.v2023.1.Mm.symbols.gmt',
                  `positional gene sets`='m1.all.v2023.1.Mm.symbols.gmt',
                  `curated gene sets`='m2.all.v2023.1.Mm.symbols.gmt',
@@ -12,7 +13,9 @@ GSEA_batch <- function(
                  `ontology gene sets`='m5.all.v2023.1.Mm.symbols.gmt',
                  `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
     symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
-    out_dir='GSEA'
+    out_dir='GSEA',
+    GSEA_plots_number=30,
+    collapse='Remap_Only'
 ){
   
   rnks <- list.files(DEG_path,recursive=T,pattern = '_all.rnk',full.names = T,include.dirs=T)
@@ -37,7 +40,10 @@ GSEA_batch <- function(
     command <- gsub("_gene_set_", gene_set, command)
     command <- gsub("_save_dir_", save_dir, command)
     command <- gsub("_the_label_", paste0(basename(save_dir),'--',gsub(' ','_',name)), command,fixed = T)
-    command <- gsub('_cd_',GSEA_path, command)
+    command <- gsub("_cd_",GSEA_path, command)
+    command <- gsub("_numberplot_",GSEA_plots_number, command)
+    command <- gsub("_collapse_",collapse, command)
+    command <- gsub("_species_",species, command)
     print(paste0('Performing enrichment analysis of ---  ',basename(rnk),'  --- with ---  ' ,name,' : ',gene_set,' .....' ))
     system("cmd.exe",input=command,show.output.on.console = F)
     Sys.sleep(1)
