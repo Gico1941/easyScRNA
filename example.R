@@ -128,7 +128,7 @@ volcano(DEG_path='DEG',p_hold = vol_plot.padj_hold,log2_fc_hold = 0.4,tops=10,hi
 ############ heat map plot   level is the order of plotting,for detailed configuration please refer to key_file
 
 
-kkey_heatmap(object_ = reduced_data, 
+key_heatmap(object_ = reduced_data, 
                         key_file='DEG_heatmap_key_example.xlsx',
                         group_level=c('Untreat','Treat'),
                         slot='scale.data',
@@ -143,6 +143,7 @@ kkey_heatmap(object_ = reduced_data,
 ############ GSEA auto
 GSEA_batch(
   DEG_path='DEG',
+  species = 'mouse',
   gene_sets =c(`hallmark gene sets`='mh.all.v2023.1.Mm.symbols.gmt',
                `positional gene sets`='m1.all.v2023.1.Mm.symbols.gmt',
                `curated gene sets`='m2.all.v2023.1.Mm.symbols.gmt',
@@ -151,8 +152,27 @@ GSEA_batch(
                `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
   symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
   out_dir='GSEA',
-  GSEA_plots_number=30
+  GSEA_plots_number=30,
+  collapse ='Collapse'
+  
 )
+
+
+GSEA_batch(
+  DEG_path='DEG',
+  species = 'human',  #'human' / 'mouse'
+  gene_sets =c(`hallmark gene sets`='h.all.v2023.2.Hs.symbols.gmt',
+               `positional gene sets`='c1.all.v2023.2.Hs.symbols.gmt',
+               `curated gene sets`='c2.all.v2023.2.Hs.symbols.gmt',
+               `regulatory target gene sets`='c3.all.v2023.2.Hs.symbols.gmt',
+               `ontology gene sets`='c6.all.v2023.2.Hs.symbols.gmt',
+               `cell type signature gene sets`='c8.all.v2023.2.Hs.symbols.gmt'),
+  symbol_chip='Human_Gene_Symbol_with_Remapping_MSigDB.v2023.2.Hs.chip',
+  out_dir='GSEA',
+  GSEA_plots_number=10,
+  collapse ='Collapse' # Remap_Only / No_Collapse / Collapse
+)
+
 
 ############## bubble plot of GSEA
 GSEA_bubble(GSEA_folder='GSEA',GSEA_fdr_hold=0.5,fdr_top=20)
