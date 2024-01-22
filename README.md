@@ -296,6 +296,7 @@ To perform batch Gene set enrichment analysis with GSEA software and MsigDB, run
 ```
 GSEA_batch(
   DEG_path='DEG',
+species = 'mouse',
   gene_sets =c(`hallmark gene sets`='mh.all.v2023.1.Mm.symbols.gmt',
                `positional gene sets`='m1.all.v2023.1.Mm.symbols.gmt',
                `curated gene sets`='m2.all.v2023.1.Mm.symbols.gmt',
@@ -304,14 +305,24 @@ GSEA_batch(
                `cell type signature gene sets`='m8.all.v2023.1.Mm.symbols.gmt'),
   symbol_chip='Mouse_Gene_Symbol_Remapping_MSigDB.v2023.1.Mm.chip',
   out_dir='GSEA',
-  GSEA_plots_number=30
+  GSEA_plots_number=30,
+collapse='Collapse'
 )   #GSEA_plots_number=30 : max lines displayed in GSEA result (default : top 20)
+
+
+
+
+
+
+
+
 
 ```
 or replace the symbol_chip and gene_sets for human data analysis
 ```
 GSEA_batch(
   DEG_path='DEG',
+species = 'human',
   gene_sets =c(`hallmark gene sets`='h.all.v2023.1.Hs.symbols.gmt',
                  `positional gene sets`='c1.all.v2023.1.Hs.symbols.gmt',
                  `curated gene sets`='c2.all.v2023.1.Hs.symbols.gmt',
@@ -320,7 +331,8 @@ GSEA_batch(
                  `cell type signature gene sets`='c8.all.v2023.1.Hs.symbols.gmt')
   symbol_chip='Human_Gene_Symbol_with_Remapping_MSigDB.v2023.1.Hs.chip',
   out_dir='GSEA',
-  GSEA_plots_number=30
+  GSEA_plots_number=30,
+  collapse ='Remap_Only'
 )   #GSEA_plots_number=30 : max lines displayed in GSEA result (default : top 20)
 ```
 
