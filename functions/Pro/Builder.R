@@ -1,8 +1,16 @@
+library(reticulate)
+library(installr)
+options(timeout=1000)
+
+
+
+requirements <- read_csv2('CellTypist_dependency.csv')
+
 
 easyBuild <- function(force=F){
   
   conda_install_ <- function(){
-    if(file.exists(reticulate::miniconda_path()) == F | force == T ){
+    if(file.exists(reticulate::miniconda_path()) == F  ){
       reticulate::install_miniconda()
     }
   }
@@ -10,6 +18,7 @@ easyBuild <- function(force=F){
   celltypist_initialization <- function(){
     if(length(grep('vs_BuildTools.exe',list.files())) ==0 | force == T){
       print('Download visual builder')
+      
       download.file('https://aka.ms/vs/17/release/vs_BuildTools.exe','vs_BuildTools.exe', mode = "wb")
       wd <- gsub('/','\\\\',getwd())
       system('cmd.exe',input =  paste0(wd,'\\vs_buildtools.exe --norestart --passive --downloadThenInstall --includeRecommended --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Workload.MSBuildTools'))
@@ -24,14 +33,16 @@ easyBuild <- function(force=F){
     }
     if('celltypist'%in%conda_list()$name==F | force==T){
       print('Install celltypist...')
-      conda_create('celltypist')
+      conda_create('celltypist',python_version = 3.8)
     }
-      installed_packs <- py_list_packages()$package
-      for( i in packs){
-        if(i %in% installed_packs ==F){
+    conda_install('celltypist',packages = 'celltypist',channel=c('anaconda','conda-forge','bioconda'))
+    
+      installed_packs <- paste(py_list_packages()$package,py_list_packages()$version,sep = '==')  
+      for( i in requirements$requirement){
+        if(i %in% installed_packs == F){
           conda_install('celltypist',packages = i,channel=c('anaconda','conda-forge','r','bioconda'))
         }}
-    
+      
       print('CellTypist installed...')
     }
   
@@ -90,19 +101,10 @@ easyBuild <- function(force=F){
   }
   conda_install_()
   celltypist_initialization()
-  Celltypist_install(packs = c('celltypist','scanpy','pandas','numpy','leidenalg'))
+  Celltypist_install()
   #system('conda install -c bioconda -c conda-forge celltypist')
   GSEA_download()
   java_install()
   }
-
-
-
-
-
-
-
-
-
 
 
