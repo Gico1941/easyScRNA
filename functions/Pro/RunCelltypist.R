@@ -19,7 +19,7 @@ Model_import <- function(models){
   return(model_imported)
 }
 
-Runcelltypist <- function(dt = reduced_data,model=c(),majority_voting = F,test_model=F){
+Runcelltypist <- function(dt = seura_obj,model=c(),majority_voting = F,test_model=F,assay=NULL){
   if(length(model) ==0){
     return()
   }
@@ -40,12 +40,15 @@ Runcelltypist <- function(dt = reduced_data,model=c(),majority_voting = F,test_m
     dt<-pbmc
   }
   
+  if(length(assay) == 0){
+    assay <- DefaultAssay(dt)
+  }
   
   ############
-  dt.data = scanpy$AnnData(X = numpy$array(as.matrix(t(as.matrix(dt[['RNA']]@data)))),
+  dt.data = scanpy$AnnData(X = numpy$array(as.matrix(t(as.matrix(GetAssayData(dt,slot = 'data'))))),
                          obs = pandas$DataFrame(dt@meta.data),
-                         var = pandas$DataFrame(data.frame(gene = rownames(dt[['RNA']]@data),
-                                                           row.names = rownames(dt[['RNA']]@data)))
+                         var = pandas$DataFrame(data.frame(gene = rownames(GetAssayData(dt,slot = 'data')),
+                                                           row.names = rownames(GetAssayData(dt,slot = 'data'))))
   )
   # Add cluster information to adata
   dt.data$obs$seurat_clusters <- dt$seurat_clusters
