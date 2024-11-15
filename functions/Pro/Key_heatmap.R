@@ -84,7 +84,7 @@ key_heatmap <- function(object_ = reduced_data,
       row_split = NULL
       ifrowcluster='_row_Clustered'
     }else{
-      row_split = row_split = genes_for_plot$Order[order(factor(genes_for_plot$Genes,levels=rownames(plot_matrix_ordered)))]
+      row_split =  genes_for_plot$Order[order(factor(genes_for_plot$Genes,levels=rownames(plot_matrix_ordered)))]
       ifrowcluster='_row_Manually_ordered'
     }
     
